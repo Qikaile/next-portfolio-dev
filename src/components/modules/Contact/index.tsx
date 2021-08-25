@@ -12,7 +12,7 @@ const Contact = () => (
     <Thumbnail>
       <Image
         src={contactIllustration}
-        alt="I’m John and I’m a Backend & Devops engineer!"
+        alt="I’m Qikaile and I’m a Developer&Mechanical engineer"
       />
     </Thumbnail>
   </Wrapper>

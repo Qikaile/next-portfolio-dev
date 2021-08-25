@@ -1,3 +1,5 @@
+import React from 'react';
+import * as emailjs from 'emailjs-com';
 import axios from 'axios';
 import { Formik, Form, FastField, ErrorMessage } from 'formik';
 import Recaptcha from 'react-google-recaptcha';
@@ -12,7 +14,6 @@ const ContactForm = () => (
       name: '',
       email: '',
       message: '',
-      recaptcha: '',
       success: false,
     }}
     validationSchema={Yup.object().shape({
@@ -21,10 +22,6 @@ const ContactForm = () => (
         .email('Invalid email')
         .required('Email field is required'),
       message: Yup.string().required('Message field is required'),
-      recaptcha:
-        process.env.NODE_ENV !== 'development'
-          ? Yup.string().required('Robots are not welcome yet!')
-          : Yup.string(),
     })}
     onSubmit={async (
       { name, email, message },
@@ -36,7 +33,7 @@ const ContactForm = () => (
           url:
             process.env.NODE_ENV !== 'development'
               ? `${process.env.NEXT_PUBLIC_PORTFOLIO_URL}/api/contact`
-              : 'http://localhost:3040/api/contact',
+              : 'http://localhost:3000/api/contact',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -100,18 +97,8 @@ const ContactForm = () => (
         {values.name &&
           values.email &&
           values.message &&
-          process.env.NODE_ENV !== 'development' && (
-            <InputField>
-              <FastField
-                component={Recaptcha}
-                sitekey={process.env.NEXT_PUBLIC_PORTFOLIO_RECAPTCHA_KEY}
-                name="recaptcha"
-                onChange={(value: string) => setFieldValue('recaptcha', value)}
-              />
-              <ErrorMessage component={Error} name="recaptcha" />
-            </InputField>
-          )}
-        {values.success && (
+          values.success &&
+    (
           <InputField>
             <Center>
               <h4>
