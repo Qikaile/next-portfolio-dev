@@ -11,14 +11,13 @@ const ContactForm = () => (
       name: '',
       email: '',
       message: '',
-      success: false,
     }}
     validationSchema={Yup.object().shape({
       name: Yup.string().required('Full name field is required'),
       email: Yup.string().email('Invalid email').required('Email field is required'),
       message: Yup.string().required('Message field is required'),
     })}
-    onSubmit={async ({ name, email, message }, { setSubmitting, resetForm, setFieldValue }) => {
+    onSubmit={async ({ name, email, message }, { setSubmitting, resetForm }) => {
       try {
         await axios({
           method: 'POST',
@@ -36,16 +35,14 @@ const ContactForm = () => (
           }),
         });
         setSubmitting(false);
-        setFieldValue('success', true);
         setTimeout(() => resetForm(), 6000);
       } catch (err) {
         setSubmitting(false);
-        setFieldValue('success', false);
         alert('Something went wrong, please try again!');
       }
     }}
   >
-    {({ values, touched, errors, setFieldValue, isSubmitting }) => (
+    {({ values, touched, errors, isSubmitting }) => (
       <Form>
         <InputField>
           <Input
@@ -86,13 +83,15 @@ const ContactForm = () => (
           />
           <ErrorMessage component={Error} name="message" />
         </InputField>
-        {values.name && values.email && values.message && values.success && (
-          <InputField>
-            <Center>
-              <h4>Your message has been successfully sent, I will get back to you ASAP!</h4>
-            </Center>
-          </InputField>
-        )}
+        {values.name &&
+          values.email &&
+          values.message(
+            <InputField>
+              <Center>
+                <h4>Your message has been successfully sent, I will get back to you ASAP!</h4>
+              </Center>
+            </InputField>,
+          )}
         <Center>
           <Button secondary type="submit" disabled={isSubmitting}>
             Submit
