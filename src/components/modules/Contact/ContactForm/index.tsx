@@ -83,15 +83,6 @@ const ContactForm = () => (
           />
           <ErrorMessage component={Error} name="message" />
         </InputField>
-        {values.name &&
-          values.email &&
-          values.message(
-            <InputField>
-              <Center>
-                <h4>Your message has been successfully sent, I will get back to you ASAP!</h4>
-              </Center>
-            </InputField>,
-          )}
         <Center>
           <Button secondary type="submit" disabled={isSubmitting}>
             Submit
