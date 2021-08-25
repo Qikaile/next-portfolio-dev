@@ -1,5 +1,3 @@
-import React from 'react';
-import * as emailjs from 'emailjs-com';
 import axios from 'axios';
 import { Formik, Form, FastField, ErrorMessage } from 'formik';
 import Recaptcha from 'react-google-recaptcha';
@@ -18,15 +16,10 @@ const ContactForm = () => (
     }}
     validationSchema={Yup.object().shape({
       name: Yup.string().required('Full name field is required'),
-      email: Yup.string()
-        .email('Invalid email')
-        .required('Email field is required'),
+      email: Yup.string().email('Invalid email').required('Email field is required'),
       message: Yup.string().required('Message field is required'),
     })}
-    onSubmit={async (
-      { name, email, message },
-      { setSubmitting, resetForm, setFieldValue }
-    ) => {
+    onSubmit={async ({ name, email, message }, { setSubmitting, resetForm, setFieldValue }) => {
       try {
         await axios({
           method: 'POST',
@@ -94,17 +87,10 @@ const ContactForm = () => (
           />
           <ErrorMessage component={Error} name="message" />
         </InputField>
-        {values.name &&
-          values.email &&
-          values.message &&
-          values.success &&
-    (
+        {values.name && values.email && values.message && values.success && (
           <InputField>
             <Center>
-              <h4>
-                Your message has been successfully sent, I will get back to you
-                ASAP!
-              </h4>
+              <h4>Your message has been successfully sent, I will get back to you ASAP!</h4>
             </Center>
           </InputField>
         )}
