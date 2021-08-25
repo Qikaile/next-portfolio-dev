@@ -42,7 +42,7 @@ const ContactForm = () => (
       }
     }}
   >
-    {({ values, touched, errors, isSubmitting }) => (
+    {({ touched, errors, isSubmitting }) => (
       <Form>
         <InputField>
           <Input
